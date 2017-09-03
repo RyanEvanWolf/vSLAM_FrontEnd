@@ -42,12 +42,12 @@ int main(int argc, char **argv)
         return 1;
 	}
 	
-
+	//create all the possible variations of the fastDetector
 	
 	using namespace stereo;
 	
 	//initialize the BumbleBee dataset and camera
-	BumbleDataSet bumbleData(inputDataSetDir,inputRectificationFile);
+	BumbleDataSet bumbleData(inputDataSetDir);
 	
 	cv::FileStorage c(inputRectificationFile,cv::FileStorage::READ);
 	

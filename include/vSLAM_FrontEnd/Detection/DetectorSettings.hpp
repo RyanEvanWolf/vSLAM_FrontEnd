@@ -10,7 +10,9 @@ namespace stereo{
 class DetectorSettings {
     public:
 		virtual void detect(cv::Mat image,std::vector<cv::KeyPoint> &output)=0;
+		virtual void adjustSettings()=0;
 		virtual void resetDefaults()=0;
+		virtual std::string getName()=0;
 		virtual ~DetectorSettings(){};
 };
 

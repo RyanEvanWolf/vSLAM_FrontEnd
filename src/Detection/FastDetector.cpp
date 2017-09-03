@@ -22,6 +22,19 @@ void FastDetector::resetDefaults()
 }
 
 
+void FastDetector::adjustSettings()
+{
+
+}
+
+std::string FastDetector::getName()
+{
+	std::stringstream outName;
+	outName<<"FAST_"<<suppression_<<"_"<<type_<<"_"<<currentThreshold_;
+	return outName.str();
+}
+
+
 
 	
 	

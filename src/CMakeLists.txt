@@ -12,3 +12,6 @@ target_link_libraries(vSLAM_FrontEnd
 
 add_executable(saveDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveDataset.cpp)
 target_link_libraries(saveDataset vSLAM_FrontEnd)
+
+add_executable(saveFastDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveFastDataset.cpp)
+target_link_libraries(saveFastDataset vSLAM_FrontEnd)
