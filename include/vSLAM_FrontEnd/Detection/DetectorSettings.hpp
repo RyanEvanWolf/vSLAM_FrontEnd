@@ -2,6 +2,7 @@
 #define FRONTEND_DETECTOR_SETTINGS_HPP
 
 #include <opencv2/features2d.hpp>
+#include <opencv2/nonfree/nonfree.hpp>
 #include <iostream>
 
 namespace stereo{

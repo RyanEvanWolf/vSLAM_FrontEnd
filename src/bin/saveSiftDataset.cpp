@@ -7,10 +7,10 @@
 #include "Structures/vSLAM/StereoFeatures.hpp"
 #define DEFAULT_DATASET "/home/ryan/DataSets/Mine/Decent-cloudy/recording-20170702-122129-924"
 #define DEFAULT_RECT "/home/ryan/git/groundTruth/gt/output/Stereo4/RectifiedBumble4.xml"
-#define DEFAULT_FAST_OUT "/home/ryan/git/vSLAM_FrontEnd/output/CLOUDY/FAST"
+#define DEFAULT_FAST_OUT "/home/ryan/git/vSLAM_FrontEnd/output/CLOUDY/SIFT"
 #define features.xml
-#include "vSLAM_FrontEnd/Detection/FastDetector.hpp"
-
+#include "vSLAM_FrontEnd/Detection/SiftDetector.hpp"
+#include "vSLAM_FrontEnd/Detection/ASiftDetector.h"
 
 #include <opencv2/highgui.hpp>
 
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 	suppress_vect.push_back(false);
 	suppress_vect.push_back(true);
 	
-	for(int index=1;index<500;index++)
+	for(int index=1;index<2;index++)
 	{
 		thresh_vect.push_back(index);
 	}
@@ -109,9 +109,7 @@ int main(int argc, char **argv)
 				std::cout<<thresh_vect.at(indexThresh)<<std::endl;
 				std::cout<<suppress_vect.at(indexBool)<<std::endl;
 				std::cout<<fastType.at(indexType)<<std::endl;
-				FastDetector det(thresh_vect.at(indexThresh),
-								 suppress_vect.at(indexBool),
-								 fastType.at(indexType));
+				SiftDetector det;
 				CurrentDetector_=&det;
 				
 				std::string dirName;
@@ -143,6 +141,12 @@ int main(int argc, char **argv)
 					
 					CurrentDetector_->detect(leftIN,Current_.leftFeatures);
 					CurrentDetector_->detect(rightIN,Current_.rightFeatures);
+					
+					cv::ASiftDetector aaa;
+					cv::Mat r;
+					std::vector<cv::KeyPoint> t;
+					
+					aaa.detectAndCompute(leftIN,t,r);
 		
 					cv::drawKeypoints(leftIN,Current_.leftFeatures,outl);
 					cv::drawKeypoints(rightIN,Current_.rightFeatures,outr);
