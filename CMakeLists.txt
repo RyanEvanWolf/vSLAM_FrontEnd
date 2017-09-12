@@ -26,6 +26,7 @@ find_package(Eigen3 REQUIRED)
 include_directories(
   include
   /usr/local/include
+  /usr/local
   ${Boost_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${Structures_INCLUDE_DIRS}
@@ -33,4 +34,5 @@ include_directories(
 )
 
 link_directories(${Structures_LIBRARIES_DIR})
+link_directories(/usr/local/kaze/lib)
 add_subdirectory(src)

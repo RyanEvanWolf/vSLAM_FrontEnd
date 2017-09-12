@@ -12,16 +12,16 @@
 #include "vSLAM_FrontEnd/Detection/SiftDetector.hpp"
 #include "vSLAM_FrontEnd/Detection/ASiftDetector.h"
 
+#include "dirUtilities.hpp"
+
 #include <opencv2/highgui.hpp>
-
-using namespace std;
-
-//void LoadImages(const string &strPathLeft, const string &strPathRight, const string &strPathTimes,
-//                vector<string> &vstrImageLeft, vector<string> &vstrImageRight, vector<double> &vTimeStamps);
 
 int main(int argc, char **argv)
 {
-	std::string inputDataSetDir;
+	SaveDirectoryInfo outConfig=getInfo(argc,argv);
+	outConfig.directory[DirectoryNames::DetectorSettings_]="fff";
+	makeFullPath(outConfig);
+/*	std::string inputDataSetDir;
 	std::string inputRectificationFile;
 	std::string outputDirectory;
     
@@ -177,7 +177,7 @@ int main(int argc, char **argv)
 				
 			}
 		}
-	}
+	}*/
 	return 0;
 }
  
