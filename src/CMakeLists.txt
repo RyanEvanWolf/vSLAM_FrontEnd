@@ -3,6 +3,7 @@ Detection/FastDetector.cpp
 Detection/SiftDetector.cpp
 Detection/ASiftDetector.cpp
 Detection/KazeDetector.cpp
+Detection/BriskDetector.cpp
 )
 set(DESCRIPTION_SRCS Description/BriskDescription.cpp)
 set(STEREO_FRONT_SRCS StereoFront/StereoCamera.cpp)
@@ -16,14 +17,13 @@ target_link_libraries(vSLAM_FrontEnd
 	KAZE
 )
 
-add_executable(saveDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveDataset.cpp)
-target_link_libraries(saveDataset vSLAM_FrontEnd)
+
 
 add_executable(saveFastDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveFastDataset.cpp)
 target_link_libraries(saveFastDataset vSLAM_FrontEnd)
 
-add_executable(saveSiftDataset
-${CMAKE_CURRENT_LIST_DIR}/bin/saveSiftDataset.cpp
-${CMAKE_CURRENT_LIST_DIR}/bin/dirUtilities.hpp
-)
+add_executable(saveSiftDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveSiftDataset.cpp)
 target_link_libraries(saveSiftDataset vSLAM_FrontEnd)
+
+add_executable(saveBriskDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveBriskDataset.cpp)
+target_link_libraries(saveBriskDataset vSLAM_FrontEnd)

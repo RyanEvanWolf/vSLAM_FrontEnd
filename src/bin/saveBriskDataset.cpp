@@ -6,7 +6,7 @@
 #include "Structures/DataSet/BumbleDataSet.hpp"
 #include "Structures/vSLAM/StereoFeatures.hpp"
 #define DEFAULT_RECT "/home/ryan/git/groundTruth/gt/output/Stereo4/RectifiedBumble4.xml"
-#include "vSLAM_FrontEnd/Detection/FastDetector.hpp"
+#include "vSLAM_FrontEnd/Detection/BriskDetector.hpp"
 #include "dirUtilities.hpp"
 
 #include <opencv2/highgui.hpp>
@@ -17,8 +17,8 @@ int main(int argc, char **argv)
 	if(argc!=4)
 	{
 		std::cerr << std::endl << "Incorrect Number of Parameters -example usage -->" << std::endl;
-	    std::cerr <<"./saveFastDataset [inputDataSetName] [outputDirectory] [DetectorName]" << std::endl;
-	    std::cerr <<"./saveFastDataset D1 ~/out FAST" << std::endl;
+	    std::cerr <<"./saveBriskDataset [inputDataSetName] [outputDirectory] [DetectorName]" << std::endl;
+	    std::cerr <<"./saveBriskDataset D1 ~/out BRISK" << std::endl;
         return 1;
 	}
 	
@@ -52,20 +52,20 @@ int main(int argc, char **argv)
 	
 	std::stringstream tempString;
 	std::vector<int> thresh_vect;
-	std::vector<int> fastType;
-	std::vector<bool> suppress_vect;
-	
-	
-	fastType.push_back(cv::FastFeatureDetector::TYPE_5_8);
-	fastType.push_back(cv::FastFeatureDetector::TYPE_7_12);
-	fastType.push_back(cv::FastFeatureDetector::TYPE_9_16);
-	
-	suppress_vect.push_back(false);
-	suppress_vect.push_back(true);
-	
+	std::vector<int> oct_vect;
+	std::vector<float> pat_vect;
+		
 	for(int index=1;index<5;index++)
 	{
 		thresh_vect.push_back(index);
+	}
+	for(int index=1;index<5;index++)
+	{
+		oct_vect.push_back(index);
+	}
+	for(int index=1;index<5;index++)
+	{
+		pat_vect.push_back(index*0.1);
 	}
 	
 
@@ -73,16 +73,13 @@ int main(int argc, char **argv)
 	
 	for(int indexThresh=0;indexThresh<thresh_vect.size();indexThresh++)
 	{
-		for(int indexType=0;indexType<fastType.size();indexType++)
+		for(int indexOct=0;indexOct<oct_vect.size();indexOct++)
 		{
-			for(int indexBool=0;indexBool<suppress_vect.size();indexBool++)
+			for(int indexPat=0;indexPat<pat_vect.size();indexPat++)
 			{
-				std::cout<<thresh_vect.at(indexThresh)<<std::endl;
-				std::cout<<suppress_vect.at(indexBool)<<std::endl;
-				std::cout<<fastType.at(indexType)<<std::endl;
-				FastDetector det(thresh_vect.at(indexThresh),
-								 suppress_vect.at(indexBool),
-								 fastType.at(indexType));
+				BriskDetector det(thresh_vect.at(indexThresh),
+								 oct_vect.at(indexOct),
+								 pat_vect.at(indexPat));
 				CurrentDetector_=&det;
 				
 				outConfig.directory[DirectoryNames::DetectorSettings_]=det.getName();
@@ -142,6 +139,7 @@ int main(int argc, char **argv)
 	}
 	return 0;
 }
+ 
  
  
  

@@ -29,11 +29,6 @@ SaveDirectoryInfo getInfo(int argc, char **argv)
 		{
 			out.directory[index]=std::string(argv[index]);
 		}
-		
-		for(int index=0;index<5;index++)
-		{
-			std::cout<<out.directory[index]<<std::endl;
-		}
 	}
 	return out;
 }
@@ -41,7 +36,7 @@ SaveDirectoryInfo getInfo(int argc, char **argv)
 void makeFullPath(SaveDirectoryInfo in)
 {
 	std::string command;
-	command="mkdir -p ";
+	command="mkdir -pv ";
 	command+=in.directory[DirectoryNames::baseOutDir_];
 	command+="/";
 	command+=in.directory[DirectoryNames::DataSetName_];
@@ -49,5 +44,25 @@ void makeFullPath(SaveDirectoryInfo in)
 	command+=in.directory[DirectoryNames::DetectorName_];
 	command+="/";
 	command+=in.directory[DirectoryNames::DetectorSettings_];
-	std::cout<<command;
+	system(command.c_str());
+}
+
+std::string getFullOutPath(SaveDirectoryInfo in)
+{
+	std::string fullpath;
+	fullpath=in.directory[DirectoryNames::baseOutDir_];
+	fullpath+="/";
+	fullpath+=in.directory[DirectoryNames::DataSetName_];
+	fullpath+="/";
+	fullpath+=in.directory[DirectoryNames::DetectorName_];
+	
+	if(!in.directory[DirectoryNames::DetectorSettings_].empty())
+	{
+		fullpath+="/";
+		fullpath+=in.directory[DirectoryNames::DetectorSettings_];
+	}
+	else
+	{
+		return fullpath;
+	}
 }
