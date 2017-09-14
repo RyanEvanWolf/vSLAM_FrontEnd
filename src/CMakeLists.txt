@@ -5,6 +5,7 @@ Detection/ASiftDetector.cpp
 Detection/KazeDetector.cpp
 Detection/BriskDetector.cpp
 #Detection/OrbDetector.cpp
+#Detection/FreakDetector.cpp
 )
 set(DESCRIPTION_SRCS Description/BriskDescription.cpp)
 set(STEREO_FRONT_SRCS StereoFront/StereoCamera.cpp)
@@ -31,3 +32,6 @@ target_link_libraries(saveBriskDataset vSLAM_FrontEnd)
 
 #add_executable(saveOrbDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveOrbDataset.cpp)
 #target_link_libraries(saveOrbDataset vSLAM_FrontEnd)
+
+#add_executable(saveFreakDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveFreakDataset.cpp)
+#target_link_libraries(saveFreakDataset vSLAM_FrontEnd)
