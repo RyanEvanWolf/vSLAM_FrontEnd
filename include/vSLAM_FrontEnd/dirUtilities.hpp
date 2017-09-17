@@ -40,7 +40,7 @@ std::vector<std::string> getList(SaveDirectoryInfo in, DirectoryNames level)
 	DIR *dir;
 	struct dirent *ent;
 	std::string readDir;
-	std::cout<<"entered function";
+	
 	switch (level)
 	{
 		case DirectoryNames::DataSetName_:
@@ -48,7 +48,7 @@ std::vector<std::string> getList(SaveDirectoryInfo in, DirectoryNames level)
 			readDir=in.directory[DirectoryNames::baseOutDir_];
 			readDir+="/";
 			readDir+=in.directory[DirectoryNames::DataSetName_];
-			std::cout<<"reading From "<<readDir<<std::endl;
+			
 			if ((dir = opendir (readDir.c_str())) != NULL) {
 				/* print all the files and directories within directory */
 				while ((ent = readdir (dir)) != NULL) {
@@ -75,8 +75,6 @@ std::vector<std::string> getList(SaveDirectoryInfo in, DirectoryNames level)
 			break;
 		}
 	}
-	
-	return outList;
 }
 
 void makeFullPath(SaveDirectoryInfo in)

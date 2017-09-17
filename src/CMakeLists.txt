@@ -8,8 +8,8 @@ Detection/OrbDetector.cpp
 )
 
 set(STEREO_FRONT_SRCS
-StereoFront/SingleFront.cpp
 StereoFront/StereoCamera.cpp
+StereoFront/Matching.cpp
 )
 
 

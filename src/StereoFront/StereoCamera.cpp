@@ -35,6 +35,13 @@ void StereoCamera::extractStereoFrame(cv::Mat leftIn, cv::Mat rightIn, StereoFra
 	
 	ldet->extract(lroi_,outFrame.leftFeatures_,outFrame.leftDescrip_);
 	rdet->extract(rroi_,outFrame.rightFeatures_,outFrame.rightDescrip_);
+	
+	outFrame.inliersMask_.clear();
+	for(int index=0;index<outFrame.leftFeatures_.size();index++)
+	{
+		outFrame.inliersMask_.push_back(1);
+	}
+	
 }
 
 

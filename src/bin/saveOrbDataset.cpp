@@ -110,12 +110,18 @@ for(int scaleindex=0;scaleindex<scale_vect.size();scaleindex++)
 
 							while(!end)
 							{
+								cv::Mat lP,rP;
 								StereoFrame out;
 								double tframe=(1000/15)*im;
 								Cam.extractStereoFrame(bumbleData.getCurrentLeft(),bumbleData.getCurrentRight(),out);
-
-								cv::imshow("l",Cam.lroi_);
-								cv::imshow("r",Cam.rroi_);
+								Cam.lroi_.copyTo(lP);
+								Cam.rroi_.copyTo(rP);
+								
+								cv::drawKeypoints(Cam.lroi_,out.leftFeatures_,lP);
+								cv::drawKeypoints(Cam.rroi_,out.rightFeatures_,rP);
+								
+								cv::imshow("l",lP);
+								cv::imshow("r",rP);
 								cv::waitKey(1);
 								std::string outputName;
 								outputName=getFullOutPath(outConfig);
