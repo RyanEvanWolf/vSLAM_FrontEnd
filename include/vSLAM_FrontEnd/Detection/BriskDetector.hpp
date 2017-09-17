@@ -25,6 +25,7 @@ class BriskDetector : public DetectorSettings {
 		void adjustSettings() override;
 		std::string getName() override;
 		void detect(cv::Mat image,std::vector<cv::KeyPoint> &output) override;
+		oid extract(cv::Mat image,std::vector<cv::KeyPoint> &in,cv::Mat &out) override;
 };
 	
 }

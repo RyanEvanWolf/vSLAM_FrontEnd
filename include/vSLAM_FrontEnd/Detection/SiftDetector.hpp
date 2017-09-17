@@ -28,6 +28,7 @@ class SiftDetector : public DetectorSettings {
 		void adjustSettings() override;
 		std::string getName() override;
 		void detect(cv::Mat image,std::vector<cv::KeyPoint> &output) override;
+		void extract(cv::Mat image,std::vector<cv::KeyPoint> &in,cv::Mat &out) override;
 };
 	
 }

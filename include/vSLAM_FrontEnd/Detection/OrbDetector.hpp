@@ -20,7 +20,8 @@ class OrbDetector : public DetectorSettings {
 			int score_type_;
 			int patchSize_;
 		};
-		cv::Ptr<cv::ORB> detector_;//=new cv::SIFT(0,10,0.03);
+		DetectorSettings::DetectionType baseName_;
+		cv::Ptr<cv::ORB> detector_;
 		settings_ startConfig_;
 		settings_ currentConfig_;	
 		void updateSettings(settings_ &n);
@@ -30,7 +31,9 @@ class OrbDetector : public DetectorSettings {
 		void resetDefaults() override;
 		void adjustSettings() override;
 		std::string getName() override;
+		settings_ getFromFileName(std::string in);
 		void detect(cv::Mat image,std::vector<cv::KeyPoint> &output) override;
+		void extract(cv::Mat image,std::vector<cv::KeyPoint> &in,cv::Mat &out) override;
 };
 	
 }

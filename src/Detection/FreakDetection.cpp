@@ -33,7 +33,8 @@ void FreakDetector::adjustSettings()
 void FreakDetector::updateSettings(settings_ &n)
 {
 	detector_.release();
-	detector_= new cv::SIFT(n.nBest_,n.octave_,n.contrastThresh_,n.edgeThresh_,n.gaussSigma_);
+	detector_= new cv::FREAK(n.orientNormal_,n.scaleNormal_,
+							 n.patternScale_,n.octaves_);
 }
 
 

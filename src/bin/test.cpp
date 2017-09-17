@@ -6,8 +6,10 @@
 #include "Structures/DataSet/BumbleDataSet.hpp"
 #include "Structures/vSLAM/StereoFeatures.hpp"
 #define DEFAULT_RECT "/home/ryan/git/groundTruth/gt/output/Stereo4/RectifiedBumble4.xml"
-#include "vSLAM_FrontEnd/Detection/FastDetector.hpp"
+#include "vSLAM_FrontEnd/Detection/BriskDetector.hpp"
 #include "dirUtilities.hpp"
+
+#include "vSLAM_FrontEnd/Feature/GenericFeature.hpp"
 
 #include <opencv2/highgui.hpp>
 
@@ -17,8 +19,8 @@ int main(int argc, char **argv)
 	if(argc!=4)
 	{
 		std::cerr << std::endl << "Incorrect Number of Parameters -example usage -->" << std::endl;
-	    std::cerr <<"./saveFastDataset [inputDataSetName] [outputDirectory] [DetectorName]" << std::endl;
-	    std::cerr <<"./saveFastDataset D1 ~/out FAST" << std::endl;
+	    std::cerr <<"./saveBriskDataset [inputDataSetName] [outputDirectory] [DetectorName]" << std::endl;
+	    std::cerr <<"./saveBriskDataset D1 ~/out BRISK" << std::endl;
         return 1;
 	}
 	
@@ -52,20 +54,20 @@ int main(int argc, char **argv)
 	
 	std::stringstream tempString;
 	std::vector<int> thresh_vect;
-	std::vector<int> fastType;
-	std::vector<bool> suppress_vect;
-	
-	
-	fastType.push_back(cv::FastFeatureDetector::TYPE_5_8);
-	fastType.push_back(cv::FastFeatureDetector::TYPE_7_12);
-	fastType.push_back(cv::FastFeatureDetector::TYPE_9_16);
-	
-	suppress_vect.push_back(false);
-	suppress_vect.push_back(true);
-	
-	for(int index=5;index<8;index++)
+	std::vector<int> oct_vect;
+	std::vector<float> pat_vect;
+		
+	for(int index=1;index<2;index++)
 	{
 		thresh_vect.push_back(index);
+	}
+	for(int index=1;index<2;index++)
+	{
+		oct_vect.push_back(index);
+	}
+	for(int index=1;index<2;index++)
+	{
+		pat_vect.push_back(index*0.1);
 	}
 	
 
@@ -73,21 +75,34 @@ int main(int argc, char **argv)
 	
 	for(int indexThresh=0;indexThresh<thresh_vect.size();indexThresh++)
 	{
-		for(int indexType=0;indexType<fastType.size();indexType++)
+		for(int indexOct=0;indexOct<oct_vect.size();indexOct++)
 		{
-			for(int indexBool=0;indexBool<suppress_vect.size();indexBool++)
+			for(int indexPat=0;indexPat<pat_vect.size();indexPat++)
 			{
-				std::cout<<thresh_vect.at(indexThresh)<<std::endl;
-				std::cout<<suppress_vect.at(indexBool)<<std::endl;
-				std::cout<<fastType.at(indexType)<<std::endl;
-				std::cout<<"newFast sequence beginning"<<std::endl;
-				FastDetector det(thresh_vect.at(indexThresh),
-								 suppress_vect.at(indexBool),
-								 fastType.at(indexType));
-				CurrentDetector_=&det;
+				cv::Ptr<cv::Feature2D> det=new cv::BRISK(thresh_vect.at(indexThresh),
+								 oct_vect.at(indexOct),
+								 pat_vect.at(indexPat));
 				
-				outConfig.directory[DirectoryNames::DetectorSettings_]=det.getName();
-				makeFullPath(outConfig);
+				cv::Ptr<cv::FeatureDetector> kk=new cv::BRISK(thresh_vect.at(indexThresh),
+								 oct_vect.at(indexOct),
+								 pat_vect.at(indexPat));
+				
+				std::cout<<"newBrisk sequence beginning"<<std::endl;
+				//BriskDetector det(thresh_vect.at(indexThresh),
+				//				 oct_vect.at(indexOct),
+				//				 pat_vect.at(indexPat));
+				//CurrentDetector_=&det;
+				
+				//outConfig.directory[DirectoryNames::DetectorSettings_]=det.getName();
+				//makeFullPath(outConfig);
+			//	GenericFeature::FastSettings t;
+			//	void *tptr= &t;
+			//	t.abc=1000;
+				
+			//	GenericFeature mine;
+				
+			//	mine.newSettings(GenericFeature::FeatureType::FAST,tptr);
+				
 				
 				//loop through the Dataset
 				bool end=false;
@@ -97,15 +112,15 @@ int main(int argc, char **argv)
 				{
 					cv::Mat outl,outr;
 					StereoFeatures Current_;
-					Current_.detectionSettings_=det.getName();
+					//Current_.detectionSettings_=det.getName();
 					double tframe=(1000/15)*im;
 					//undistort each image, and set them to the region of interest
 					//cv::Mat inputLeft=bumbleData.getCurrentLeft()
 					cv::remap(bumbleData.getCurrentLeft(),leftUndistorted,bumbleBee_.L_fMapx_,bumbleBee_.L_fMapy_,cv::INTER_LINEAR);
 					cv::remap(bumbleData.getCurrentRight(),rightUndistorted,bumbleBee_.R_fMapx_,bumbleBee_.R_fMapy_,cv::INTER_LINEAR);
 					
-					CurrentDetector_->detect(leftIN,Current_.leftFeatures);
-					CurrentDetector_->detect(rightIN,Current_.rightFeatures);
+					kk->detect(leftIN,Current_.leftFeatures);
+					kk->detect(rightIN,Current_.rightFeatures);
 		
 					cv::drawKeypoints(leftIN,Current_.leftFeatures,outl);
 					cv::drawKeypoints(rightIN,Current_.rightFeatures,outr);
@@ -113,7 +128,7 @@ int main(int argc, char **argv)
 					cv::imshow("l",outl);
 					cv::imshow("r",outr);
 					
-					std::string outputName;
+					/*std::string outputName;
 					outputName=getFullOutPath(outConfig);
 					outputName+="/";
 					outputName+=bumbleData.getCurrentName().erase(bumbleData.getCurrentName().length()-4);
@@ -126,22 +141,28 @@ int main(int argc, char **argv)
 					a<<"features"<<Current_;
 					a.release();
 		
-					
+					*/
 					cv::waitKey(1);
 					end= !bumbleData.incrementFrame();
 					im++;
+					if(im>15)
+					{
+						end=true;
+					}
 					std::cout<<"["<<im<<"/"<<bumbleData.getTotalImages()<<"]"<<std::endl;
 				}
 				std::cout<<"ResetSequence"<<std::endl;
-				bumbleData.resetCurrent();
-				
+				bumbleData.resetCurrent();	
 			}
 		}
 	}
+	
 	std::cout<<"Finished Dataset"<<std::endl;
 	cv::destroyAllWindows();
 	return 0;
 }
+ 
+ 
  
  
  

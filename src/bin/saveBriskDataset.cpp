@@ -77,6 +77,7 @@ int main(int argc, char **argv)
 		{
 			for(int indexPat=0;indexPat<pat_vect.size();indexPat++)
 			{
+				std::cout<<"newBrisk sequence beginning"<<std::endl;
 				BriskDetector det(thresh_vect.at(indexThresh),
 								 oct_vect.at(indexOct),
 								 pat_vect.at(indexPat));
@@ -126,17 +127,16 @@ int main(int argc, char **argv)
 					cv::waitKey(1);
 					end= !bumbleData.incrementFrame();
 					im++;
-					if(im>5)
-					{
-						end=true;
-					}
-					std::cout<<im<<std::endl;
+					std::cout<<"["<<im<<"/"<<bumbleData.getTotalImages()<<"]"<<std::endl;
 				}
-				cv::destroyAllWindows();
-				
+				std::cout<<"ResetSequence"<<std::endl;
+				bumbleData.resetCurrent();	
 			}
 		}
 	}
+	
+	std::cout<<"Finished Dataset"<<std::endl;
+	cv::destroyAllWindows();
 	return 0;
 }
  

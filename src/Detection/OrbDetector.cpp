@@ -5,6 +5,7 @@ namespace stereo {
 OrbDetector::OrbDetector(int nMax,float scaleFactor,int nlevels,int edgeThresh,int firstLevel,int WTA_K,
 								 int score_type,int patchSize)
 {
+	baseName_=DetectorSettings::ORB;
 	startConfig_.nMax_=nMax;
 	startConfig_.scaleFactor_=scaleFactor;
 	startConfig_.nlevels_=nlevels;
@@ -38,7 +39,9 @@ void OrbDetector::adjustSettings()
 void OrbDetector::updateSettings(settings_ &n)
 {
 	detector_.release();
-	detector_= new cv::SIFT(n.nBest_,n.octave_,n.contrastThresh_,n.edgeThresh_,n.gaussSigma_);
+	detector_= new cv::ORB(n.nMax_,n.scaleFactor_,n.nlevels_,
+						   n.edgeThresh_,n.firstLevel_,n.WTA_K_,
+						   n.score_type_,n.patchSize_);
 }
 
 
@@ -50,6 +53,20 @@ std::string OrbDetector::getName()
 	outName<<"_"<<currentConfig_.WTA_K_<<"_"<<currentConfig_.score_type_<<"_"<<currentConfig_.patchSize_;
 	return outName.str();
 }
+
+OrbDetector::settings_ OrbDetector::getFromFileName(std::__cxx11::string in)
+{
+	settings_ output;
+	return output;
+}
+
+
 	
+void OrbDetector::extract(cv::Mat image, std::vector< cv::KeyPoint >& in, cv::Mat& out)
+{
+	detector_->operator()(image,cv::Mat(),in,out,true);
+}
+
+
 	
 }

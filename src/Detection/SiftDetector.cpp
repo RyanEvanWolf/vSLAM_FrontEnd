@@ -56,6 +56,12 @@ std::string SiftDetector::getName()
 	outName<<"_"<<currentConfig_.edgeThresh_<<"_"<<currentConfig_.gaussSigma_;
 	return outName.str();
 }
+
+void SiftDetector::extract(cv::Mat image, std::vector< cv::KeyPoint >& in, cv::Mat& out)
+{
+	detector_->operator()(image,cv::Mat(),in,out,true);
+}
+
 	
 	
 }

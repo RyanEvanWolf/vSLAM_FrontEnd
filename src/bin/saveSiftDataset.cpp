@@ -86,6 +86,7 @@ int main(int argc, char **argv)
 			{
 				for(int sigindex=0;sigindex<sigma_.size();sigindex++)
 				{
+					std::cout<<"newSift sequence beginning"<<std::endl;
 					SiftDetector det(0,oct_.at(octindex),contrast_.at(contindex),
 									 edge_.at(edgeindex),sigma_.at(sigindex));
 					CurrentDetector_=&det;
@@ -108,7 +109,7 @@ int main(int argc, char **argv)
 					
 						CurrentDetector_->detect(leftIN,Current_.leftFeatures);
 						CurrentDetector_->detect(rightIN,Current_.rightFeatures);
-		
+							
 						cv::drawKeypoints(leftIN,Current_.leftFeatures,outl);
 						cv::drawKeypoints(rightIN,Current_.rightFeatures,outr);
 		
@@ -132,18 +133,17 @@ int main(int argc, char **argv)
 						cv::waitKey(1);
 						end= !bumbleData.incrementFrame();
 						im++;
-						std::cout<<im<<std::endl;
-						if(im>5)
-						{
-							end=true;
-						}
+						std::cout<<"["<<im<<"/"<<bumbleData.getTotalImages()<<"]"<<std::endl;
 				}
-				cv::destroyAllWindows();
+				std::cout<<"ResetSequence"<<std::endl;
+				bumbleData.resetCurrent();
 				}
 			}
 		}
 		
 	}
+	std::cout<<"Finished Dataset"<<std::endl;
+	cv::destroyAllWindows();
 	return 0;
 }
  

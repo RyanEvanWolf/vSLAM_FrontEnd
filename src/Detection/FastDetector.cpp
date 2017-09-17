@@ -35,6 +35,12 @@ std::string FastDetector::getName()
 }
 
 
+void FastDetector::extract(cv::Mat image, std::vector< cv::KeyPoint >& in, cv::Mat& out)
+{
+	//DOES NOT IMPLEMENT ANYTHING, Fast does not impement any descriptor
+}
+
+
 
 	
 	

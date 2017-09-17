@@ -4,7 +4,6 @@
 
 #include "vSLAM_FrontEnd/Detection/DetectorSettings.hpp"
 #include <kaze/include/KAZE.h>
-//#include <kaze/include/KAZEConfig.h>
 
 namespace stereo
 {
@@ -14,7 +13,7 @@ class KazeDetector : public DetectorSettings {
 		KAZEOptions startConfig_;
 		KAZEOptions currentConfig_;
 		cv::Ptr<libKAZE::KAZE> detector_;
-		void updateSettings();
+		void updateSettings(KAZEOptions &n);
     public:
 		KazeDetector(KAZEOptions in);
 	//	KazeDetector(int nfeatures, int nOctaveLayers, double contrastThreshold, double edgeThreshold, double sigma);

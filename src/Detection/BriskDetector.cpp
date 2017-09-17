@@ -42,5 +42,6 @@ std::string BriskDetector::getName()
 	return outName.str();
 }
 	
+
 	
 }
