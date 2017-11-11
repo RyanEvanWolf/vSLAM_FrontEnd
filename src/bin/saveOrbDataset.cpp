@@ -110,6 +110,7 @@ for(int scaleindex=0;scaleindex<scale_vect.size();scaleindex++)
 
 							while(!end)
 							{
+								cv::Mat tttt,outtt;
 								cv::Mat lP,rP;
 								StereoFrame out;
 								double tframe=(1000/15)*im;
@@ -120,9 +121,21 @@ for(int scaleindex=0;scaleindex<scale_vect.size();scaleindex++)
 								cv::drawKeypoints(Cam.lroi_,out.leftFeatures_,lP);
 								cv::drawKeypoints(Cam.rroi_,out.rightFeatures_,rP);
 								
+								//add offset
+								
+								for(int index=0;index<out.leftFeatures_.size();index++)
+								{
+									out.leftFeatures_.at(index).pt.x+=Cam.cameraSettings_.l_ROI_.x;
+									out.leftFeatures_.at(index).pt.y+=Cam.cameraSettings_.l_ROI_.y;
+								}
+								bumbleData.getCurrentLeft().copyTo(tttt);
+								cv::remap(bumbleData.getCurrentLeft(),tttt,Cam.cameraSettings_.L_fMapx_,Cam.cameraSettings_.L_fMapy_,cv::INTER_LINEAR);
+								cv::drawKeypoints(bumbleData.getCurrentLeft(),out.leftFeatures_,outtt);
+								
 								cv::imshow("l",lP);
 								cv::imshow("r",rP);
-								cv::waitKey(1);
+								cv::imshow("out",outtt);
+								cv::waitKey(0);
 								std::string outputName;
 								outputName=getFullOutPath(outConfig);
 								outputName+="/";
@@ -132,9 +145,9 @@ for(int scaleindex=0;scaleindex<scale_vect.size();scaleindex++)
 								out.frameData_=bumbleData.getCurrentMeta();
 						
 								std::cout<<outputName<<std::endl;
-								cv::FileStorage a(outputName.c_str(),cv::FileStorage::WRITE);
-								a<<"features"<<out;
-								a.release();
+								//cv::FileStorage a(outputName.c_str(),cv::FileStorage::WRITE);
+								//a<<"features"<<out;
+								//a.release();
 									
 								end= !bumbleData.incrementFrame();
 								im++;

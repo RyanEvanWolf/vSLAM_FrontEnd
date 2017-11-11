@@ -12,11 +12,16 @@ namespace stereo
 		public:
 			float loweRatio;
 			float epiThreshold;
+			float pixelBox;
 			Matching();
 			void stereoBruteMatch(StereoFrame &in,std::vector<cv::DMatch> &out);
 			void knnMatch(StereoFrame &in,std::vector<std::vector<cv::DMatch>> &out);
 			void filterLoweRatio(std::vector< std::vector< cv::DMatch > > &in,std::vector<char> &filter,std::vector<cv::DMatch> &out);
-			void filterEpiPolar(std::vector< cv::DMatch >&in,std::vector<cv::DMatch> &out);
+			void filterEpiPolar(StereoFrame& inOut);
+			std::vector<char> invertMask(std::vector<char> in);
+			float getRatio(std::vector<char> in);
+			void getWindowMask(StereoFrame &in,cv::Mat &outMask);
+			void WindowMatch(StereoFrame &in);
 	};
 	
 	
