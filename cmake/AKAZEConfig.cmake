@@ -1,0 +1,5 @@
+set(AKAZE_LIBRARIES_DIR /usr/local/lib/akaze)
+set(AKAZE_LIBS AKAZE)
+set(AKAZE_INCLUDE_DIRS /usr/local/include/akaze)
+set(AKAZE_FOUND TRUE)
+MESSAGE("AKAZE LIBRARY FOUND")

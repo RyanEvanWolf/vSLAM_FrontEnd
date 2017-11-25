@@ -1,10 +1,9 @@
 set(DETECTION_SRCS 
 Detection/FastDetector.cpp
 Detection/SiftDetector.cpp
-#Detection/ASiftDetector.cpp
-#Detection/KazeDetector.cpp
-#Detection/BriskDetector.cpp
 Detection/OrbDetector.cpp
+Detection/AkazeDetector.cpp
+Detection/KazeDetector.cpp
 )
 
 set(STEREO_FRONT_SRCS
@@ -12,18 +11,15 @@ StereoFront/StereoCamera.cpp
 StereoFront/Matching.cpp
 )
 
-
 add_library(vSLAM_FrontEnd ${DETECTION_SRCS} ${STEREO_FRONT_SRCS})
 
+MESSAGE(STATUS "${KAZE_LIBS} --- ${KAZE_LIBRARIES_DIR} ---${KAZE_INCLUDE_DIRS}")
 target_link_libraries(vSLAM_FrontEnd
 	${OpenCV_LIBS}
 	${Structures_LIBS}
-	KAZE
+	${AKAZE_LIBS}
+	${KAZE_LIBS}
 )
-
-#add_executable(test ${CMAKE_CURRENT_LIST_DIR}/bin/test.cpp)
-#target_link_libraries(test vSLAM_FrontEnd)
-
 add_executable(saveFastDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveFastDataset.cpp)
 target_link_libraries(saveFastDataset vSLAM_FrontEnd)
 
@@ -36,8 +32,10 @@ target_link_libraries(saveSiftDataset vSLAM_FrontEnd)
 add_executable(saveOrbDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveOrbDataset.cpp)
 target_link_libraries(saveOrbDataset vSLAM_FrontEnd)
 
-#add_executable(saveKazeDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveKazeDataset.cpp)
-#target_link_libraries(saveKazeDataset vSLAM_FrontEnd)
 
-#add_executable(saveFreakDataset ${CMAKE_CURRENT_LIST_DIR}/bin/saveFreakDataset.cpp)
-#target_link_libraries(saveFreakDataset vSLAM_FrontEnd)
+add_executable(displayAKAZE ${CMAKE_CURRENT_LIST_DIR}/bin/displayAKAZE.cpp)
+target_link_libraries(displayAKAZE vSLAM_FrontEnd)
+
+
+add_executable(displayKAZE ${CMAKE_CURRENT_LIST_DIR}/bin/displayKAZE.cpp)
+target_link_libraries(displayKAZE vSLAM_FrontEnd)

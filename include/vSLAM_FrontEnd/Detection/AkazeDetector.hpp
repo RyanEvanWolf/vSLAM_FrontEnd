@@ -1,21 +1,21 @@
  
-#ifndef FRONTEND_KAZE_DETECTOR_TYPE_HPP
-#define FRONTEND_KAZE_DETECTOR_TYPE_HPP
+#ifndef FRONTEND_AKAZE_DETECTOR_TYPE_HPP
+#define FRONTEND_AKAZE_DETECTOR_TYPE_HPP
 
 #include "vSLAM_FrontEnd/Detection/DetectorSettings.hpp"
-#include <kaze/KAZE.h>
+#include <AKAZE.h>
 
 namespace stereo
 {
 
-class KazeDetector : public DetectorSettings {
+class AkazeDetector : public DetectorSettings {
 	protected:
-		KAZEOptions startConfig_;
-		KAZEOptions currentConfig_;
-		cv::Ptr<libKAZE::KAZE> detector_;
-		void updateSettings(KAZEOptions &n);
+		AKAZEOptions startConfig_;
+		AKAZEOptions currentConfig_;
+		cv::Ptr<libAKAZE::AKAZE> detector_;
+		void updateSettings(AKAZEOptions &n);
     public:
-		KazeDetector(KAZEOptions in);
+		AkazeDetector(AKAZEOptions in);
 		void resetDefaults() override;
 		void adjustSettings() override;
 		std::string getName() override;

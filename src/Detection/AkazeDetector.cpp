@@ -1,19 +1,19 @@
  
-#include "vSLAM_FrontEnd/Detection/KazeDetector.hpp"
+#include "vSLAM_FrontEnd/Detection/AkazeDetector.hpp"
 
 
 namespace stereo {
 
-KazeDetector::KazeDetector(KAZEOptions in)
+AkazeDetector::AkazeDetector(AKAZEOptions in)
 {
 	startConfig_=in;
 	currentConfig_=in;
 	updateSettings(in);
-	detector_= new libKAZE::KAZE(currentConfig_);
+	detector_= new libAKAZE::AKAZE(currentConfig_);
 }
 
 
-void KazeDetector::detect(cv::Mat image, std::vector< cv::KeyPoint >& output)
+void AkazeDetector::detect(cv::Mat image, std::vector< cv::KeyPoint >& output)
 {
 	cv::Mat floatImage;
 	image.convertTo(floatImage,CV_32F,1.0/255.0,0);
@@ -21,37 +21,37 @@ void KazeDetector::detect(cv::Mat image, std::vector< cv::KeyPoint >& output)
 	detector_->Feature_Detection(output);
 }
 
-void KazeDetector::extract(cv::Mat image, std::vector< cv::KeyPoint >& in, cv::Mat& out)
+void AkazeDetector::extract(cv::Mat image, std::vector< cv::KeyPoint >& in, cv::Mat& out)
 {
 
 }
 
 
-void KazeDetector::resetDefaults()
+void AkazeDetector::resetDefaults()
 {
 	updateSettings(startConfig_);
 	//currentThreshold_=threshold_;
 }
 
 
-void KazeDetector::adjustSettings()
+void AkazeDetector::adjustSettings()
 {
 
 }
 
-void KazeDetector::updateSettings(KAZEOptions &n)
+void AkazeDetector::updateSettings(AKAZEOptions &n)
 {
 	detector_.release();
-	detector_=new libKAZE::KAZE(n);
+	detector_=new libAKAZE::AKAZE(n);
 }
 
 
-std::string KazeDetector::getName()
+std::string AkazeDetector::getName()
 {
 	std::stringstream outName;
 	outName<<"KAZE_"<<currentConfig_.soffset<<"_"<<currentConfig_.omax<<"_";
 	outName<<currentConfig_.nsublevels<<"_"<<currentConfig_.dthreshold<<"_";
-	outName<<currentConfig_.min_dthreshold<<"_"<<currentConfig_.use_fed<<"_";
+	outName<<currentConfig_.min_dthreshold<<"_";
 	outName<<currentConfig_.diffusivity<<"_"<<currentConfig_.sderivatives<<"_";
 	outName<<currentConfig_.kcontrast<<"_"<<currentConfig_.kcontrast_percentile<<"_";
 	outName<<currentConfig_.kcontrast_nbins;

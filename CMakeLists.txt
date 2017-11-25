@@ -8,6 +8,8 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 include(${CMAKE_SOURCE_DIR}/cmake/StructuresConfig.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/OpenCVConfig.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/AKAZEConfig.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/KAZEConfig.cmake)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -30,9 +32,11 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${Structures_INCLUDE_DIRS}
-
+  ${AKAZE_INCLUDE_DIRS}
+  ${KAZE_INCLUDE_DIRS}
 )
 
 link_directories(${Structures_LIBRARIES_DIR})
-link_directories(/usr/local/kaze/lib)
+link_directories(${AKAZE_LIBRARIES_DIR})
+link_directories(${KAZE_LIBRARIES_DIR})
 add_subdirectory(src)

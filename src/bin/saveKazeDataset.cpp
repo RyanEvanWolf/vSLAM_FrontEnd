@@ -5,7 +5,7 @@
 #include <opencv2/core/core.hpp>
 #include "Structures/DataSet/BumbleDataSet.hpp"
 #include "Structures/vSLAM/StereoFeatures.hpp"
-#define DEFAULT_RECT "/home/ryan/git/groundTruth/gt/output/Stereo4/RectifiedBumble4.xml"
+#define DEFAULT_RECT "/home/ryan/git/Output/Calibration/stereo_ParameterFour.xml"
 #include "vSLAM_FrontEnd/Detection/KazeDetector.hpp"
 #include "dirUtilities.hpp"
 
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
         return 1;
 	}
 	
-	SaveDirectoryInfo outConfig=getInfo(argc,argv);
+/*	SaveDirectoryInfo outConfig=getInfo(argc,argv);
 	//create all the possible variations of the SiftDetector
 	
 	using namespace stereo;
@@ -70,61 +70,23 @@ int main(int argc, char **argv)
 	std::vector<float> kperc_vect;
 	std::vector<float> kbin_vect;
 	
-	
-	
-	for(int index=1; index<5;index++)
-	{
-		scale_vect.push_back(0.1*index);
-	}
-	for(int index=1;index<5;index++)
-	{
-		level_vect.push_back(index);
-	}
-	for(int index=1;index<5;index++)
-	{
-		edge_vect.push_back(index);
-	}
-	for(int index=0;index<4;index++)
-	{
-		wta_vect.push_back(index);
-	}
-	
-//	score_vect.push_back(cv::ORB::kBytes);
-//	score_vect.push_back(cv::ORB::HARRIS_SCORE);
-//	score_vect.push_back(cv::ORB::FAST_SCORE);
-	
-	for(int index=2;index<5;index++)
-	{
-		patch_vect.push_back(index);
-	}
-	
-
-	DetectorSettings *CurrentDetector_;
-	
-/*	for(int scaleindex=0;scaleindex<scale_vect.size();scaleindex++)
-	{
-		for(int levelindex=0;levelindex<level_vect.size();levelindex++)
-		{
-			for(int edgeindex=0;edgeindex<edge_vect.size();edgeindex++)
-			{
-				for(int wtaindex=0;wtaindex<wta_vect.size();wtaindex++)
-				{
-					for(int scoreindex=0;scoreindex<score_vect.size();scoreindex++)
-					{
-						for(int patchindex=0;patchindex<patch_vect.size();patchindex++)
-						{
-									OrbDetector det(nmax,scale_vect.at(scaleindex),level_vect.at(levelindex),
-																	edge_vect.at(edgeindex),firstVect,wta_vect.at(wtaindex),
-																	score_vect.at(scoreindex),patch_vect.at(patchindex));
-
-								CurrentDetector_=&det;
-						}
-					}
-				}
-			}
-		}
-	}
 	*/
+	
+
+
+	//DetectorSettings *CurrentDetector_;
+	
+	cv::Mat testImage;
+	cv::imread("/home/ryan/Figure_1.png",CV_LOAD_IMAGE_GRAYSCALE);
+	
+	KAZEOptions settings;
+	std::cout<<settings.soffset<<endl;
+	
+	stereo::KazeDetector mine(settings);
+	std::vector<cv::KeyPoint> a;
+	
+	mine.detect(testImage,a);
+	std::cout<<a.size()<<endl;
 	
 /*
 for(int scaleindex=0;scaleindex<scale_vect.size();scaleindex++)
