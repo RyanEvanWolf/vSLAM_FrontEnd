@@ -4,6 +4,7 @@ Detection/SiftDetector.cpp
 Detection/OrbDetector.cpp
 Detection/AkazeDetector.cpp
 Detection/KazeDetector.cpp
+Detection/ASiftDetector.cpp
 )
 
 set(STEREO_FRONT_SRCS

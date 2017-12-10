@@ -1,5 +1,5 @@
  //Code by Matt sheckells http://www.mattsheckells.com/opencv-asift-c-implementation/
-#include "vSLAM_FrontEnd/Detection/ASiftDetector.h"
+#include "vSLAM_FrontEnd/Detection/ASiftDetector.hpp"
 #include <iostream>
  
 #include <opencv2/nonfree/features2d.hpp>
@@ -29,15 +29,7 @@ void ASiftDetector::detectAndCompute(const Mat& img, std::vector< KeyPoint >& ke
       img.copyTo(timg);
  
       affineSkew(t, phi, timg, mask, Ai);
- 
-#if 0
-      Mat img_disp;
-      bitwise_and(mask, timg, img_disp);
-      namedWindow( "Skew", WINDOW_AUTOSIZE );// Create a window for display.
-      imshow( "Skew", img_disp ); 
-      waitKey(0);
-#endif
- 
+
       SiftFeatureDetector detector;
       detector.detect(timg, kps, mask);
    
